@@ -13,21 +13,25 @@ namespace Chisel
         {
             JSONReader reader = new JSONReader();
 
-            reader.ReadJSON(".//cogs//config.json");
+            await reader.ReadJSON(".//cogs//config.json");
             await Task.Delay(-1);
         } 
     }
     public class JSONReader // Handles JSON files to be read
     {
-        public virtual void ReadJSON(string FILE) 
+        public async Task ReadJSON(string FILE) 
         {
             string filePath = Path.GetFullPath(FILE);
             try
             {
                 using (StreamReader sr = new StreamReader(filePath))
                 {
-                    string json = sr.ReadToEnd();
+                    string json = await sr.ReadToEndAsync();
                     dynamic values = JsonConvert.DeserializeObject<dynamic>(json);
+                    foreach (var cog in values)
+                    {
+                        Console.WriteLine(cog.ToString());
+                    }
                 }
             }catch
             {
