@@ -15,8 +15,8 @@ namespace Chisel.reader {
                 {
                     string json = sr.ReadToEnd();
                     JSONBotConfiguration values = JsonConvert.DeserializeObject<JSONBotConfiguration>(json);
-                    BotSecretToken = values.BotSecretToken;
-                    CommandPrefix = values.CommandPrefix;
+                    this.BotSecretToken = values.BotSecretToken;
+                    this.CommandPrefix = values.CommandPrefix;
                 }
             }catch
             {

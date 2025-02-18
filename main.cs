@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Chisel.reader;
+using Chisel.Run;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -10,23 +11,23 @@ using Discord.Commands;
 // TODO MAKE A TEST EVENT WHEN A USER JOINS A GUILD.
 // TODO TEST COMMAND SAYING "Hello World!"
 
-// I have no idea how to use Depedency Injection 
+// I have no idea how to use Depedency Injection sometimes so please be wary with this dumb console app
 
 namespace Chisel
 {
-    public class MainRuntime
+    public class Program
     {
         private readonly IServiceProvider _provider;
         private readonly DiscordSocketClient _client;
         private readonly JSONReader _jsonread;
-        
-        public MainRuntime(IServiceProvider provider)
+
+        public Program(IServiceProvider provider)
         {
             _provider = provider;
             _client = provider.GetRequiredService<DiscordSocketClient>();
         }
-
-        public async Task Main(string[] args)
+        public static async Task Main() => StartupService.GetServiceProvider();
+        public async Task RunAsync()
         {
             await _jsonread.ReadJSON(".//cogs//config.json");
             try
@@ -40,17 +41,6 @@ namespace Chisel
             }
 
             await Task.Delay(-1);
-        }
-    }
-    class LoggingConsole
-    {
-        public Task LogAsync(LogMessage message)
-        {
-
-            if (message.Exception is CommandException commandException){
-
-            }
-                return Task.CompletedTask;
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Chisel.Commands.Generic
     class BotGenericCommands {
 
         static async Task Ping() {
+            await Task.Delay(-1);
         }
     }
 }

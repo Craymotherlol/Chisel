@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Chisel;
 using Discord;
 using Discord.WebSocket;
+using Chisel.reader;
 
 
 namespace Chisel.Startup
@@ -19,7 +20,8 @@ namespace Chisel.Startup
 
             var collection = new ServiceCollection()
             .AddSingleton(config)
-            .AddSingleton<DiscordSocketClient>();
+            .AddSingleton<DiscordSocketClient>()
+            .AddSingleton<JSONReader>();
             return collection.BuildServiceProvider();
         }
         public static IServiceProvider GetServiceProvider()
@@ -27,7 +29,6 @@ namespace Chisel.Startup
             _services = CreateProvider();
             return _services;
         }
-
     }
 }
 
