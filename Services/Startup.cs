@@ -10,7 +10,7 @@ namespace Chisel.Startup
     public class StartupService
     {
         private static IServiceProvider _services;
-        private static IServiceProvider CreateProvider()
+        public static IServiceProvider CreateProvider()
         {
             var config = new DiscordSocketConfig()
             {
@@ -24,7 +24,7 @@ namespace Chisel.Startup
             .AddSingleton<JSONReader>();
             return collection.BuildServiceProvider();
         }
-        public static IServiceProvider GetServiceProvider()
+        public IServiceProvider GetServiceProvider()
         {
             _services = CreateProvider();
             return _services;
