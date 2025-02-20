@@ -21,7 +21,8 @@ namespace Chisel.reader
                         BotSecretToken = values.BotSecretToken;
                         CommandPrefix = values.CommandPrefix;
                     }
-                    catch {
+                    catch
+                    {
                         Console.WriteLine("ERROR: Token and Prefix is either invalid or is not set.");
                     }
                 }
