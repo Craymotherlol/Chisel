@@ -5,15 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
-            "type": "coreclr",
-            "request": "launch",
+            "name": "Build Project",
+            "type": "dotnet",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net8.0/Chisel.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "console": "externalTerminal"
-        }        
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/<project-name>.csproj"
+        },
+        {
+            "name": "Run Project",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/<project-name>.csproj"
+        }                
     ]
 }
