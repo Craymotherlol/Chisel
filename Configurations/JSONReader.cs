@@ -16,20 +16,14 @@ namespace Chisel.reader
                 {
                     string json = sr.ReadToEnd();
                     JSONBotConfiguration values = JsonConvert.DeserializeObject<JSONBotConfiguration>(json);
-                    try
-                    {
-                        BotSecretToken = values.BotSecretToken;
-                        CommandPrefix = values.CommandPrefix;
-                    }
-                    catch
-                    {
-                        Console.WriteLine("ERROR: Token and Prefix is either invalid or is not set.");
-                    }
+                    BotSecretToken = values.BotSecretToken;
+                    CommandPrefix = values.CommandPrefix;
                 }
             }
             catch
             {
                 Console.WriteLine($"ERROR: Filepath is not set correctly: {FILE}");
+
             }
             return Task.CompletedTask;
         }

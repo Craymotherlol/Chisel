@@ -2,17 +2,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Build & Run Project",
-            "type": "dotnet",
-            "preLaunchTask": "build",
+            "name": "Build & Run Bot",
+            "type": "coreclr",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/<project-name>.csproj"
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/bin/Release/net8.0/Chisel.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "externalTerminal"
         },
         {
-            "name": "Run Project",
-            "type": "dotnet",
+            "name": "Run Bot",
+            "type": "coreclr",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/<project-name>.csproj"
-        }                
+            "program": "${workspaceFolder}/bin/Release/net8.0/Chisel.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "externalTerminal"
+        }
     ]
 }
