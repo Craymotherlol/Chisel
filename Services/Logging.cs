@@ -10,8 +10,11 @@ namespace Chisel.Logs
 {
     class LoggingService
     {
-        public Task LogAsync(LogMessage msg)
+        public Task LogAsync(LogMessage msg)    
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("[INFO] ");
+            Console.ResetColor();
             Console.WriteLine(msg);
             return Task.CompletedTask;
         }

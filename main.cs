@@ -47,6 +47,7 @@ namespace Chisel
             }
             catch
             {
+                Console.BackgroundColor = ConsoleColor.Red;
                 Console.WriteLine("Token is either invalid or it is empty.");
             }
 
