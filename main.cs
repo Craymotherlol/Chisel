@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Chisel.reader;
-using Chisel.Run;
+using Chisel.Logs;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,13 +19,13 @@ namespace Chisel
     {
         private readonly IServiceProvider _provider;
         private readonly DiscordSocketClient _client;
-        private readonly JSONReader _jsonread;
+        private readonly LoggingService _logsrv;
 
         public InitClientStart(IServiceProvider provider)
         {
             _provider = provider;
             _client = provider.GetRequiredService<DiscordSocketClient>();
-            _jsonread = provider.GetRequiredService<JSONReader>();
+            _logsrv = provider.GetRequiredService<LoggingService>();
         }
         public static async Task Main()
         {
@@ -36,11 +36,13 @@ namespace Chisel
         }
         public async Task RunAsync()
         {
-            await _jsonread.ReadJSON(".//Configurations//config.json");
+            var Config = new JSONReader(); // Doesn't have to be there all the time.
+            await Config.ReadJSON(".//Configurations//config.json");
+            _client.Log += _logsrv.LogAsync;
 
             try
             {
-                await _client.LoginAsync(TokenType.Bot, _jsonread.BotSecretToken);
+                await _client.LoginAsync(TokenType.Bot, Config.BotSecretToken);
                 await _client.StartAsync();
             }
             catch

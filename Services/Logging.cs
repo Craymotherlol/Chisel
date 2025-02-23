@@ -6,18 +6,14 @@ using Microsoft.Extensions.Logging;
 using Chisel.Startup;
 using Discord.Commands;
 
-namespace Chisel.Run
+namespace Chisel.Logs
 {
     class LoggingService
     {
-
-        public LoggingService(DiscordSocketClient _client)
+        public Task LogAsync(LogMessage msg)
         {
-            _client.Log += LogAsync;
-        }
-        private Task LogAsync(LogMessage msg)
-        {
-                return Task.CompletedTask;
+            Console.WriteLine(msg);
+            return Task.CompletedTask;
         }
     }
 }

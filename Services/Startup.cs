@@ -1,8 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using Chisel;
 using Discord;
 using Discord.WebSocket;
-using Chisel.reader;
+using Chisel.Logs;
 
 
 namespace Chisel.Startup
@@ -21,7 +20,7 @@ namespace Chisel.Startup
             var collection = new ServiceCollection()
             .AddSingleton(config)
             .AddSingleton<DiscordSocketClient>()
-            .AddSingleton<JSONReader>();
+            .AddSingleton<LoggingService>();
             return collection.BuildServiceProvider();
         }
         public IServiceProvider GetServiceProvider()
