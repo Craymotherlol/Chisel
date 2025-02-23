@@ -37,6 +37,7 @@ namespace Chisel
         public async Task RunAsync()
         {
             await _jsonread.ReadJSON(".//Configurations//config.json");
+
             try
             {
                 await _client.LoginAsync(TokenType.Bot, _jsonread.BotSecretToken);
