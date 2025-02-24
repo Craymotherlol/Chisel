@@ -13,6 +13,7 @@ namespace Chisel.Logs
     {
         public Task LogAsync(LogMessage msg)
         {
+            string SEVERITY = msg.Severity.ToString();
             switch (msg.Severity) // There's probably a better way to parse colorized logs into the console but eh this will do for now.
             {
                 case LogSeverity.Critical:
@@ -31,7 +32,7 @@ namespace Chisel.Logs
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     break;
             }
-            Console.Write($"[{msg.Source}/{msg.Severity}] ");
+            Console.Write($"[{msg.Source} | {SEVERITY.ToUpper()}] ");
             Console.ResetColor();
             Console.WriteLine($"{msg.Message}");
             return Task.CompletedTask;
