@@ -4,7 +4,6 @@ using Chisel.reader;
 using Chisel.Logs;
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Chisel.Startup;
 using Discord.Commands;
 
