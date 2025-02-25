@@ -32,7 +32,7 @@ namespace Chisel.Logs
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     break;
             }
-            Console.Write($"[{msg.Source} | {SEVERITY.ToUpper()}] ");
+            Console.Write($"[{SEVERITY.ToUpper()}] ");
             Console.ResetColor();
             Console.WriteLine($"{msg.Message}");
             return Task.CompletedTask;

@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System;
 
-namespace Chisel.reader
+namespace Chisel.Reader
 {
     public class JSONReader // Handles JSON files to be read
     {

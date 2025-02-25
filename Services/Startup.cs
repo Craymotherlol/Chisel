@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Discord;
 using Discord.WebSocket;
 using Chisel.Logs;
-
+using Discord.Commands;
 
 namespace Chisel.Startup
 {
@@ -11,16 +11,30 @@ namespace Chisel.Startup
         private static IServiceProvider _services;
         public static IServiceProvider CreateProvider()
         {
-            var config = new DiscordSocketConfig()
+            var socketconfig = new DiscordSocketConfig()
             {
                 LogLevel = LogSeverity.Info,
                 MessageCacheSize = 150
             };
 
+            var commandsconfig = new CommandServiceConfig() {
+                CaseSensitiveCommands = false,
+                LogLevel = LogSeverity.Debug
+            };
+
             var collection = new ServiceCollection()
-            .AddSingleton(config)
+
+            // Socket
+            .AddSingleton(socketconfig)
             .AddSingleton<DiscordSocketClient>()
-            .AddSingleton<LoggingService>();
+
+            // Commands
+            .AddSingleton(commandsconfig)
+            .AddSingleton<CommandService>()
+
+            // Logging
+            .AddSingleton<LoggingService>(); 
+            
             return collection.BuildServiceProvider();
         }
         public IServiceProvider GetServiceProvider()

@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Build & Run Bot",
+            "name": "BUILD & RUN",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -13,7 +13,7 @@
             "console": "externalTerminal"
         },
         {
-            "name": "Run Bot",
+            "name": "RUN",
             "type": "coreclr",
             "request": "launch",
             "program": "${workspaceFolder}/bin/Debug/net8.0/Chisel.dll",
@@ -21,6 +21,6 @@
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "console": "externalTerminal"
-        }
+        },
     ]
 }

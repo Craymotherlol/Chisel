@@ -1,11 +1,12 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Chisel.reader;
+using Chisel.Reader;
 using Chisel.Logs;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Chisel.Startup;
 using Discord.Commands;
+using Chisel.Commands;
 
 // TODO MAKE A TEST EVENT WHEN A USER JOINS A GUILD.
 // TODO TEST COMMAND SAYING "Hello World!"
@@ -19,38 +20,39 @@ namespace Chisel
         private readonly IServiceProvider _provider;
         private readonly DiscordSocketClient _client;
         private readonly LoggingService _logsrv;
+        private readonly CommandService _cmd;
+
+        public string PrePrefix { get; set; }
 
         public InitClientStart(IServiceProvider provider)
         {
             _provider = provider;
             _client = provider.GetRequiredService<DiscordSocketClient>();
             _logsrv = provider.GetRequiredService<LoggingService>();
+            _cmd = provider.GetRequiredService<CommandService>();
         }
-        public static async Task Main()
+        public static async Task Main() // screw static methods 
         {
             var provider = StartupService.CreateProvider();
             var initializer = new InitClientStart(provider);
-            await initializer.RunAsync(); // Invoke RunAsync
+            await initializer.RunAsync();
             await Task.CompletedTask;
         }
         public async Task RunAsync()
         {
-            var Config = new JSONReader(); // Doesn't have to be there all the time.
-            await Config.ReadJSON(".//Configurations//config.json");
+            var config = new JSONReader(); // Doesn't have to be there all the time
+            await config.ReadJSON(".//Configurations//config.json");
             _client.Log += _logsrv.LogAsync;
+            _cmd.Log += _logsrv.LogAsync;
 
-            try
-            {
-                await _client.LoginAsync(TokenType.Bot, Config.BotSecretToken);
-                await _client.StartAsync();
-            }
-            catch
-            {
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine("Token is either invalid or it is empty.");
-            }
+            PrePrefix = config.CommandPrefix; // Grab from JSON to pass it to CommandServicesHandler class.
 
-            await Task.Delay(-1); // Keep Task running to keep the bot running.
+            _client.MessageReceived += HandleCommandAsync;
+
+            await _client.LoginAsync(TokenType.Bot, config.BotSecretToken);
+            await _client.StartAsync();
+
+            await Task.Delay(-1); // Keep Task running to keep the bot running at all times (DON'T REMOVE THIS.)
         }
     }
 }
