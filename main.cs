@@ -56,7 +56,6 @@ namespace Chisel
             for (byte i = 3; i > 0;)
             {
                 await _client.StartAsync();
-                Console.WriteLine($"{i} Tries left.");
                 i--;
 
                 if (_client.ConnectionState == ConnectionState.Connected)
