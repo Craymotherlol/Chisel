@@ -8,6 +8,7 @@ namespace Chisel.Startup
 {
     public class StartupService
     {
+        // Making a host builder might be easier but I just find it to be more compact this way.
         private static IServiceProvider _services;
         public static IServiceProvider CreateProvider()
         {

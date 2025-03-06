@@ -32,8 +32,8 @@ namespace Chisel.Logs
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     break;
             }
-            Console.Write($"[{SEVERITY.ToUpper()}] ");
-            Console.ResetColor();
+            // Console.Write($"[{SEVERITY.ToUpper()}] ");
+            // Console.ResetColor();
             Console.WriteLine($"{msg.Message}");
             return Task.CompletedTask;
         }

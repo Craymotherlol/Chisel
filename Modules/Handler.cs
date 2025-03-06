@@ -1,11 +1,12 @@
-using Chisel;
-using Chisel.Reader;
 using Discord.WebSocket;
+using System;
+using System.Text;
+using System.Collections.Generic;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net.NetworkInformation;
+using System.Reflection;
 
-namespace Chisel.Commands
+namespace Chisel.Modules
 {
     public class CommandsServicesHandler
     {
@@ -13,15 +14,20 @@ namespace Chisel.Commands
         private readonly DiscordSocketClient _client;
         private readonly CommandService _cmd;
 
-    
         public CommandsServicesHandler(IServiceProvider provider)
         {
             _provider = provider;
             _client = provider.GetRequiredService<DiscordSocketClient>();
             _cmd = provider.GetRequiredService<CommandService>();
         }
-        private async Task HandleCommandAsync(SocketMessage message_parameter)
-        { 
+
+        public async Task CommandAssemblyInstaller()
+        {
+            _client.MessageReceived += HandleCommandAsync;
+            await _cmd.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: _provider);
+        }
+        public async Task HandleCommandAsync(SocketMessage message_parameter)
+        {
             var getter = new InitClientStart(_provider);
             string prefix = getter.PrePrefix;
 

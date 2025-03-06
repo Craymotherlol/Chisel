@@ -8,11 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Configurations\config.json~RFf7a97d.TMP" />
     <None Remove="Program.cs~RF1dfe39.TMP" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="cogs\config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Configurations\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
