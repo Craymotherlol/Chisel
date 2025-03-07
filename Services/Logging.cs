@@ -1,13 +1,6 @@
 ﻿using Discord;
-using Discord.WebSocket;
-using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Chisel.Startup;
-using Discord.Commands;
-using Discord.Net;
 
-namespace Chisel.Logs
+namespace Chisel.Services.Logs
 {
     class LoggingService
     {
@@ -32,9 +25,14 @@ namespace Chisel.Logs
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     break;
             }
-            // Console.Write($"[{SEVERITY.ToUpper()}] ");
-            // Console.ResetColor();
-            Console.WriteLine($"{msg.Message}");
+            Console.Write($"[{SEVERITY.ToUpper()}] ");
+            Console.ResetColor();
+            if (msg.Exception != null)
+            {
+               Console.WriteLine($"{msg.Exception}");
+            } else {
+               Console.WriteLine($"{msg.Message}");
+            }
             return Task.CompletedTask;
         }
     }

@@ -1,40 +1,38 @@
 using Discord.WebSocket;
-using System;
-using System.Text;
-using System.Collections.Generic;
 using Discord.Commands;
+using Chisel;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Chisel.Modules
+namespace Chisel.Services.Handler
 {
-    public class CommandsServicesHandler
+    public class CommandsHandler
     {
         private readonly IServiceProvider _provider;
         private readonly DiscordSocketClient _client;
-        private readonly CommandService _cmd;
+        private readonly CommandService _commands;
 
-        public CommandsServicesHandler(IServiceProvider provider)
+        public CommandsHandler(IServiceProvider provider)
         {
             _provider = provider;
             _client = provider.GetRequiredService<DiscordSocketClient>();
-            _cmd = provider.GetRequiredService<CommandService>();
+            _commands = provider.GetRequiredService<CommandService>();
         }
 
-        public async Task CommandAssemblyInstaller()
+        public async Task InstallModulesAsync()
         {
             _client.MessageReceived += HandleCommandAsync;
-            await _cmd.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: _provider);
+            await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
         }
-        public async Task HandleCommandAsync(SocketMessage message_parameter)
+        private async Task HandleCommandAsync(SocketMessage messageParam)
         {
             var getter = new InitClientStart(_provider);
             string prefix = getter.PrePrefix;
 
-            var message = message_parameter as SocketUserMessage;
+            var message = messageParam as SocketUserMessage;
             if (message == null) return;
 
-            int argPos = 1;
+            int argPos = 0;
 
             if (!(message.HasStringPrefix(prefix, ref argPos) ||
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
@@ -43,7 +41,7 @@ namespace Chisel.Modules
 
             var context = new SocketCommandContext(_client, message);
 
-            await _cmd.ExecuteAsync(
+            await _commands.ExecuteAsync(
                 context: context,
                 argPos: argPos,
                 services: null);

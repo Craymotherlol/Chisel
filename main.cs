@@ -1,13 +1,11 @@
-﻿using Discord;
+﻿global using Discord;
 using Discord.WebSocket;
 using Chisel.Reader;
-using Chisel.Logs;
-using System;
+using Chisel.Services.Logs;
 using Microsoft.Extensions.DependencyInjection;
-using Chisel.Startup;
+using Chisel.Services.Startup;
 using Discord.Commands;
-using Chisel.Modules;
-using Discord.Rest;
+using Chisel.Services.Handler;
 
 // TODO MAKE A TEST EVENT WHEN A USER JOINS A GUILD.
 // TODO TEST COMMAND SAYING "Hello World!"
@@ -30,7 +28,6 @@ namespace Chisel
             _provider = provider;
             _client = provider.GetRequiredService<DiscordSocketClient>();
             _logsrv = provider.GetRequiredService<LoggingService>();
-            _cmd = provider.GetRequiredService<CommandService>();
         }
         public static async Task Main() // screw static methods lmfao
         {
@@ -41,26 +38,29 @@ namespace Chisel
         }
         private async Task RunAsync()
         {
-            Console.WriteLine($"State: {_client.LoginState}");
-            var cmdservices = new CommandsServicesHandler(_provider);
+            var cmdservices = new CommandsHandler(_provider);
             var config = new JSONReader(); // Doesn't have to be there all the time
 
             await config.ReadJSON(".//Configurations//config.json");
+
+            PrePrefix = config.CommandPrefix;
+
             _client.Log += _logsrv.LogAsync;
             _cmd.Log += _logsrv.LogAsync;
-
-            PrePrefix = config.CommandPrefix; // Grab from JSON to pass it to CommandServicesHandler class.
 
             await _client.LoginAsync(TokenType.Bot, config.BotSecretToken);
 
             for (byte i = 3; i > 0;)
             {
-                await _client.StartAsync();
-                i--;
+                if (_client.ConnectionState != ConnectionState.Connected)
+                {
+                    await _client.StartAsync();
+                    i--;
+                }
 
                 if (_client.ConnectionState == ConnectionState.Connected)
                 {
-                    break;
+                    break; // Checkmark
                 }
             }
 

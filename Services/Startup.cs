@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Discord;
 using Discord.WebSocket;
-using Chisel.Logs;
+using Chisel.Services.Logs;
 using Discord.Commands;
 
-namespace Chisel.Startup
+namespace Chisel.Services.Startup
 {
     public class StartupService
     {
@@ -18,7 +18,8 @@ namespace Chisel.Startup
                 MessageCacheSize = 150
             };
 
-            var commandsconfig = new CommandServiceConfig() {
+            var commandsconfig = new CommandServiceConfig()
+            {
                 CaseSensitiveCommands = false,
                 LogLevel = LogSeverity.Debug
             };
