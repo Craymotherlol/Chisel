@@ -28,6 +28,7 @@ namespace Chisel
             _provider = provider;
             _client = provider.GetRequiredService<DiscordSocketClient>();
             _logsrv = provider.GetRequiredService<LoggingService>();
+            _cmd = provider.GetRequiredService<CommandService>();
         }
         public static async Task Main() // screw static methods lmfao
         {
@@ -63,6 +64,8 @@ namespace Chisel
                     break; // Checkmark
                 }
             }
+
+            _client.MessageReceived += cmdservices.HandleCommandAsync;
 
             await Task.Delay(-1); // Keep Task running to keep the bot running at all times (DON'T REMOVE THIS.)
         }

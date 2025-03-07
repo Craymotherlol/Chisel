@@ -24,7 +24,7 @@ namespace Chisel.Services.Handler
             _client.MessageReceived += HandleCommandAsync;
             await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
         }
-        private async Task HandleCommandAsync(SocketMessage messageParam)
+        public async Task HandleCommandAsync(SocketMessage messageParam)
         {
             var getter = new InitClientStart(_provider);
             string prefix = getter.PrePrefix;
@@ -32,7 +32,7 @@ namespace Chisel.Services.Handler
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
 
-            int argPos = 0;
+            int argPos = 1;
 
             if (!(message.HasStringPrefix(prefix, ref argPos) ||
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
