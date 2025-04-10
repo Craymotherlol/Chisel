@@ -24,18 +24,22 @@ namespace Chisel.Services.Handler
             _client.MessageReceived += HandleCommandAsync;
             await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
         }
-        
+
         public async Task HandleCommandAsync(SocketMessage messageParam)
         {
             var getter = new InitClientStart(_provider);
             string prefix = getter.PrePrefix;
+
+            if (prefix == null) {
+                throw new ArgumentNullException();
+            }
 
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
 
             int argPos = 1;
 
-            if (!(message.HasStringPrefix("!", ref argPos) ||
+            if (!(message.HasStringPrefix(prefix, ref argPos) ||
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot)
                 return;
