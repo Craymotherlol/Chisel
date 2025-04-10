@@ -22,7 +22,7 @@ namespace Chisel.Services.Handler
         public async Task InstallModulesAsync()
         {
             _client.MessageReceived += HandleCommandAsync;
-            await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: _provider);
+            await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
         }
 
         public async Task HandleCommandAsync(SocketMessage messageParam)
@@ -34,21 +34,22 @@ namespace Chisel.Services.Handler
                 throw new ArgumentNullException();
             }
 
-            if (messageParam == null) return;
+            var message = messageParam as SocketUserMessage;
+            if (message == null) return;
 
             int argPos = 1;
 
-            if (!(messageParam.HasStringPrefix(prefix, ref argPos) ||
-                messageParam.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
-                messageParam.Author.IsBot)
+            if (!(message.HasStringPrefix(prefix, ref argPos) ||
+                message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
+                message.Author.IsBot)
                 return;
 
-            var context = new SocketCommandContext(_client, messageParam);
+            var context = new SocketCommandContext(_client, message);
 
             await _commands.ExecuteAsync(
                 context: context,
                 argPos: argPos,
-                services: _provider);
+                services: null);
         }
     }
 }
