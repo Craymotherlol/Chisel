@@ -49,6 +49,7 @@ namespace Chisel
             _client.Log += _logsrv.LogAsync;
             _cmd.Log += _logsrv.LogAsync;
 
+            await cmdservices.InstallModulesAsync();
             await _client.LoginAsync(TokenType.Bot, config.BotSecretToken);
 
             for (byte i = 3; i > 0;)
@@ -64,8 +65,6 @@ namespace Chisel
                     break; // Checkmark
                 }
             }
-
-            _client.MessageReceived += cmdservices.HandleCommandAsync;
 
             await Task.Delay(-1); // Keep Task running to keep the bot running at all times (DON'T REMOVE THIS.)
         }

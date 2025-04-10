@@ -24,6 +24,7 @@ namespace Chisel.Services.Handler
             _client.MessageReceived += HandleCommandAsync;
             await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
         }
+        
         public async Task HandleCommandAsync(SocketMessage messageParam)
         {
             var getter = new InitClientStart(_provider);
@@ -34,7 +35,7 @@ namespace Chisel.Services.Handler
 
             int argPos = 1;
 
-            if (!(message.HasStringPrefix(prefix, ref argPos) ||
+            if (!(message.HasStringPrefix("!", ref argPos) ||
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot)
                 return;
